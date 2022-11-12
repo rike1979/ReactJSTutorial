@@ -1,5 +1,6 @@
 import "./styles.css";
-import { severityType, severityMessages } from "./ressources/constants.tsx";
+import PropTypes from "prop-types";
+import { severityType, severityMessages } from "./ressources/constants.js";
 
 // vollumfänglich
 /* 
@@ -11,7 +12,7 @@ const LoadingText = (probs) => {
 */
 
 // reduziert durch Object Destructing & Entfernung return, da nur ein Ausdruck
-const LoadingText = (isLoading) => (
+const LoadingText = (isLoading: boolean) => (
   <div>{isLoading ? <p>Loading...</p> : <h2>Fertig geladen</h2>}</div>
 );
 
@@ -24,15 +25,15 @@ const SeverityMessage = ({ severity, children }) => {
 };
 
 export default function App() {
-  var text = severityMessages.error;
-  var type = severityType.error;
+  var text = severityMessages.Error;
+  var type = severityType.Error;
 
   var randomValue = Math.floor(Math.random() * 2);
 
   if (randomValue === 0) {
     //Warning
-    text = severityMessages.warning;
-    type = severityType.warning;
+    text = severityMessages.Warning;
+    type = severityType.Warning;
   }
 
   return (
@@ -40,9 +41,13 @@ export default function App() {
       <h1>Hello CodeSandbox</h1>
       <h2>Time now: {new Date().toISOString()}</h2>
       <h3>RandomValue: {randomValue}</h3>
-      <LoadingText isLoading={true} />
+      <LoadingText isLoading={randomValue} />
       <SeverityMessage severity={type}>{text}</SeverityMessage>
       <br />
     </div>
   );
 }
+
+SeverityMessage.propTypes = {
+  severity: PropTypes.string,
+};
