@@ -1,22 +1,21 @@
 import "./styles.css";
+import React, { ReactNode } from "react";
 import PropTypes from "prop-types";
 import { severityType, severityMessages } from "./ressources/constants.js";
 
-// vollumfänglich
-/* 
-const LoadingText = (probs) => {
-  return (
-    <div>{probs.isLoading ? <p>Loading...</p> : <h2>Fertig geladen</h2>}</div>
-  );
-};
-*/
+interface Props {
+  severity?: String;
+  children?: ReactNode;
+  // any props that come into the component
+}
 
 // reduziert durch Object Destructing & Entfernung return, da nur ein Ausdruck
-const LoadingText = (isLoading: boolean) => (
-  <div>{isLoading ? <p>Loading...</p> : <h2>Fertig geladen</h2>}</div>
+//props: { isLoading: boolean }
+const LoadingText = (props: { isLoading: boolean }) => (
+  <div>{props.isLoading ? <p>Loading...</p> : <h2>Fertig geladen</h2>}</div>
 );
 
-const SeverityMessage = ({ severity, children }) => {
+const SeverityMessage = ({ severity, children }: Props) => {
   return (
     <div className={severity === "warning" ? "warning" : "error"}>
       {children}
@@ -27,6 +26,7 @@ const SeverityMessage = ({ severity, children }) => {
 export default function App() {
   var text = severityMessages.Error;
   var type = severityType.Error;
+  var loadingValue = false;
 
   var randomValue = Math.floor(Math.random() * 2);
 
@@ -41,7 +41,7 @@ export default function App() {
       <h1>Hello CodeSandbox</h1>
       <h2>Time now: {new Date().toISOString()}</h2>
       <h3>RandomValue: {randomValue}</h3>
-      <LoadingText isLoading={randomValue} />
+      <LoadingText isLoading={loadingValue} />
       <SeverityMessage severity={type}>{text}</SeverityMessage>
       <br />
     </div>
